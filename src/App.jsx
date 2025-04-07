@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {if (isLogin) {getItems();}}, [isLogin ]);
 
   const getItems = async () => {
-    const result = await fetch("http://localhost:5001/items/", { method:"GET", headers:{"Authorization":auth }});
+    const result = await fetch("http://localhost:5001/items/", { method:"GET", headers:{"Authorization":localStorage.getItem('token') }});
     const data = await result.json();
     setItems(data);
 
@@ -24,13 +24,13 @@ function App() {
 
   const add = async (item) => {
     //item.id = items.length + 1; 
-    const result = await fetch("http://localhost:5001/items/", { method:"POST", headers:{"content-type":"application/json", "Authorization":auth}, body:JSON.stringify(item), });
+    const result = await fetch("http://localhost:5001/items/", { method:"POST", headers:{"content-type":"application/json", "Authorization":localStorage.getItem('token')}, body:JSON.stringify(item), });
     const data = await result.json();
     setItems([...items, data.item]);
   };
 
   const del = async (id) => {
-    await fetch("http://localhost:5001/items/" + id, {method:"DELETE", headers:{"Authorization":auth}});
+    await fetch("http://localhost:5001/items/" + id, {method:"DELETE", headers:{"Authorization":localStorage.getItem('token')}});
     setItems(items.filter((item) => item.id !== id));
   };
 
@@ -39,6 +39,7 @@ function App() {
     const data = await result.json();
     setIsLogin(data.isLogin);
     setAuth(data.token);
+    localStorage.setItem("token", data.token);
     return isLogin;
   };
 
