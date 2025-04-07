@@ -1,7 +1,6 @@
-import { Button } from "@mui/material";
 import ActionAreaCard from "../components/Card";
-
 function Homepage() {
+
     return (
         <div align="center">
             <h1>Bienvenido</h1>
