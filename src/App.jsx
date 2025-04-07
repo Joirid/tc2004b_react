@@ -12,7 +12,6 @@ function App() {
   const [items, setItems] = useState([]);
   // const [count, setCount] = useState(0);
   const [isLogin, setIsLogin] = useState(false);
-  const [auth, setAuth] = useState("");
   useEffect(() => {if (isLogin) {getItems();}}, [isLogin ]);
 
   const getItems = async () => {
@@ -38,7 +37,6 @@ function App() {
     const result = await fetch("http://localhost:5001/login2/", { method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(user), });
     const data = await result.json();
     setIsLogin(data.isLogin);
-    setAuth(data.token);
     localStorage.setItem("token", data.token);
     return isLogin;
   };
