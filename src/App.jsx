@@ -8,14 +8,15 @@ import ResponsiveAppBar from './components/Appbar';
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
 
+const API_URL = process.env.REACT_APP_API_URL /*|| "http://localhost:5001"*/;
+
 function App() {
   const [items, setItems] = useState([]);
-  // const [count, setCount] = useState(0);
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {if (isLogin) {getItems();}}, [isLogin ]);
 
   const getItems = async () => {
-    const result = await fetch("http://localhost:5001/items/", { method:"GET", headers:{"Authorization":localStorage.getItem('token') }});
+    const result = await fetch(API_URL + "/items/", { method:"GET", headers:{"Authorization":localStorage.getItem('token') }});
     const data = await result.json();
     setItems(data);
 
@@ -23,21 +24,24 @@ function App() {
 
   const add = async (item) => {
     //item.id = items.length + 1; 
-    const result = await fetch("http://localhost:5001/items/", { method:"POST", headers:{"content-type":"application/json", "Authorization":localStorage.getItem('token')}, body:JSON.stringify(item), });
+    const result = await fetch(API_URL + "/items/", { method:"POST", headers:{"content-type":"application/json", "Authorization":localStorage.getItem('token')}, body:JSON.stringify(item), });
     const data = await result.json();
-    setItems([...items, data.item]);
+    setItems([...items, data]);
+    console.log(data);
+    console.log(items);
   };
 
   const del = async (id) => {
-    await fetch("http://localhost:5001/items/" + id, {method:"DELETE", headers:{"Authorization":localStorage.getItem('token')}});
+    await fetch(API_URL + "/items/" + id, {method:"DELETE", headers:{"Authorization":localStorage.getItem('token')}});
     setItems(items.filter((item) => item.id !== id));
   };
 
   const login = async (user) => {
-    const result = await fetch("http://localhost:5001/login2/", { method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(user), });
+    const result = await fetch(API_URL + "/login2/", { method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(user), });
     const data = await result.json();
     setIsLogin(data.isLogin);
     localStorage.setItem("token", data.token);
+    console.log(localStorage.getItem('token'));
     return isLogin;
   };
 
