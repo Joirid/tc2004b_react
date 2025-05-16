@@ -8,7 +8,7 @@ import ResponsiveAppBar from './components/Appbar';
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
 
-const API_URL = process.env.REACT_APP_API_URL /*|| "http://localhost:5001"*/;
+const API_URL = process.env.REACT_APP_API_URL;
 
 function App() {
   const [items, setItems] = useState([]);
